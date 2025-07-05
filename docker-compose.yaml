@@ -5,7 +5,7 @@ services:
     build: .
     image: nodejs_app:latest
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:${APP_PORT}"
     volumes:
       - ./:/app
     command: bash -c "yarn install && yarn start"
@@ -17,12 +17,12 @@ services:
     image: mysql:8
     # restart: always
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=db
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
       - mysqldata:/var/lib/mysql
     networks:
@@ -33,7 +33,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - 8080:8080
+      - ${ADMINER_PORT}:8080
     # restart: always
     networks:
       - express
